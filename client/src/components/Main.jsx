@@ -10,7 +10,8 @@ export default class Main extends React.Component {
     super(props);
 
     this.state = {
-      text: ''
+      text: '',
+      display: []
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,8 +27,19 @@ export default class Main extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     socket.emit('chat message', this.state.text);
-    
-  }
+    this.setState({
+      text: ''
+    });
+    socket.on('chat message', (message) => {
+      let newDisplay = this.state.display.slice();
+      newDisplay.push(message);
+      this.setState({
+        display: newDisplay
+      }, () => {
+        console.log(this.state, 'after submitting')
+      })
+    });
+  };
   
   render() {
     // socketAPI((err, timestamp) => this.setState({
