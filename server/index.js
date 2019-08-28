@@ -14,11 +14,9 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 
 //listen on the "connection" event for incoming socekts
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  })
+io.on('connection', (client) => {
+  client.on('chat message', (message) => {
+    console.log(message)});
 });
 
 http.listen(3000, function(){

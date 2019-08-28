@@ -1,11 +1,11 @@
 import React from 'react';
 
-function chatBox () {
+function chatBox(props) {
   return (
     <div>
       <ul id="messages"></ul>
-      <form action="">
-        <input id="m" autoComplete="off" /><button>Send</button>
+      <form onSubmit={props.handleSubmit}>
+        <input id="m" name='text' autoComplete="off" onChange={props.handleInputChange}/><button>Send</button>
       </form>
     </div>
   );
