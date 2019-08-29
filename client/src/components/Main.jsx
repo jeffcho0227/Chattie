@@ -1,5 +1,7 @@
 import React from 'react';
 import ChatBox from './chatBox/chatBox.jsx';
+import Display from './display/Display.jsx';
+
 import io from 'socket.io-client'
 import socketAPI from '../utilities/subscribeToTimer.jsx';
 
@@ -19,8 +21,11 @@ export default class Main extends React.Component {
 
   handleInputChange(e) {
     let {name, value} = e.target;
+    console.log(name, value)
     this.setState({
       [name]: value
+    }, () => {
+      console.log(this.state);
     });
   }
 
@@ -30,16 +35,16 @@ export default class Main extends React.Component {
     socket.emit('chat message', this.state.text);
     this.setState({
       text: ''
+    }, () => {
+      console.log(this.state);
     });
     socket.on('chat message', (message) => {
-      console.log(message, 'message getting back');
       let newDisplay = this.state.display.slice(0);
       newDisplay.push(message);
       this.setState({
-        display: newDisplay
-      }, () => {
-        console.log(this.state, 'after submitting')
-      })
+        display: newDisplay, 
+
+      });
     });
   };
   
@@ -50,9 +55,11 @@ export default class Main extends React.Component {
     return(
       <div>
         this is Main!!!
+        <Display messages={this.state.display}/>
         <ChatBox 
           handleInputChange={this.handleInputChange}
-          handleSubmit={this.handleSubmit}/>
+          handleSubmit={this.handleSubmit}
+          text={this.state.text}/>
       </div>
     )
   };

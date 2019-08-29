@@ -5,7 +5,7 @@ function chatBox(props) {
     <div>
       <ul id="messages"></ul>
       <form onSubmit={props.handleSubmit}>
-        <input id="m" name='text' autoComplete="off" onChange={props.handleInputChange}/><button>Send</button>
+        <input name="text" autoComplete="off" value={props.text} onChange={(e) => props.handleInputChange(e)}/><button>Send</button>
       </form>
     </div>
   );
