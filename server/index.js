@@ -13,8 +13,9 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 
 //listen on the "connection" event for incoming socekts
-io.on('connection', (client) => {
-  client.on('chat message', (message) => {
+io.on('connection', (socket) => {
+  socket.on('chat message', (message) => {
+    console.log(message)
     io.emit('chat message', message);
   });
 });

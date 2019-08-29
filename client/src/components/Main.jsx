@@ -3,7 +3,7 @@ import ChatBox from './chatBox/chatBox.jsx';
 import io from 'socket.io-client'
 import socketAPI from '../utilities/subscribeToTimer.jsx';
 
-const socket = io('http://localhost:3000');
+const socket = io();
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -25,13 +25,15 @@ export default class Main extends React.Component {
   }
 
   handleSubmit(e) {
+    socket.removeAllListeners();
     e.preventDefault();
     socket.emit('chat message', this.state.text);
     this.setState({
       text: ''
     });
     socket.on('chat message', (message) => {
-      let newDisplay = this.state.display.slice();
+      console.log(message, 'message getting back');
+      let newDisplay = this.state.display.slice(0);
       newDisplay.push(message);
       this.setState({
         display: newDisplay
